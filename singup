@@ -33,11 +33,12 @@ def generate_random_name():
     middle_names = ['Alexander', 'Anthony', 'Charles', 'Dash', 'David', 'Edward']
     last_names = ['SMITH', 'JOHNSON', 'WILLIAMS', 'BROWN', 'JONES', 'MILLER']
     
-    first_name = random.choice(first_names)
-    middle_name = random.choice(middle_names)
-    last_name = random.choice(last_names)
-    
-  first, middle, last, full = create_full_name("John", "William", "Doe")
+    # Example usage
+first_name = "John"
+middle_name = "William"
+last_name = "Doe"
+
+first, middle, last, full = create_full_name(first_name, middle_name, last_name)
 print(first)   # Output: John
 print(middle)  # Output: William
 print(last)    # Output: Doe
