@@ -33,16 +33,14 @@ def generate_random_name():
     middle_names = ['Alexander', 'Anthony', 'Charles', 'Dash', 'David', 'Edward']
     last_names = ['SMITH', 'JOHNSON', 'WILLIAMS', 'BROWN', 'JONES', 'MILLER']
     
-    # Example usage
-first_name = "John"
-middle_name = "William"
-last_name = "Doe"
-
-first, middle, last, full = create_full_name(first_name, middle_name, last_name)
-print(first)   # Output: John
-print(middle)  # Output: William
-print(last)    # Output: Doe
-print(full)    # Output: John William Doe
+    first_name = random.choice(first_names)
+    middle_name = random.choice(middle_names)
+    last_name = random.choice(last_names)
+    
+    # Create full name
+    full_name = f"{first_name} {middle_name} {last_name}"
+    
+    return first_name, middle_name, last_name, full_name
 
 # Generate a random email
 def generate_random_email(full_name):
@@ -53,11 +51,15 @@ def generate_random_email(full_name):
 
 # Generate a random password
 def generate_random_password():
-    return f"PAss{random.randint(0, 9999999)}?#@"
+    characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()"
+    password = "".join(random.choice(characters) for _ in range(12))  # Generate a 12-character password
+    return password
 
 # Generate the request signature
 def generate_signature(params, secret):
+    # Ensure all params are sorted alphabetically by key
     sorted_params = ''.join(f"{k}={v}" for k, v in sorted(params.items()))
+    # Return the MD5 hash of the concatenated string and secret
     return hashlib.md5((sorted_params + secret).encode()).hexdigest()
 
 # Function to create and send the request
@@ -99,8 +101,20 @@ def register_user():
     try:
         response = requests.post(api_url, data=req_params)
         response.raise_for_status()  # Raise an error for bad responses
-        print(response.json())  # Print the response
+        
+        # Check if the response contains a valid JSON
+        try:
+            response_data = response.json()
+            print(response_data)  # Print the response data
+        except ValueError:
+            print("Response content is not in JSON format.")
+    
     except requests.RequestException as e:
+        print(f"An error occurred: {e}")
+
+# Run the registration function
+register_user()
+
         print(f"An error occurred: {e}")
 
 # Run the registration function
